@@ -169,6 +169,8 @@ def main():
     #     bombs.append(bomb)
     bombs = [Bomb((255,0,0),10) for _ in range(NUM_OF_BOMBS)]
     beam = None  # ゲーム初期化時にはビームは存在しない
+    # マルチビーム用リスト（既存動作を変更しないためコメントアウト）
+    # beams = []
     clock = pg.time.Clock()
     score = Score()  # 課題１
     tmr = 0
@@ -179,6 +181,7 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 # スペースキー押下でBeamクラスのインスタンス生成
                 beam = Beam(bird)            
+                beams.append(Beam(bird))  # 課題２
         screen.blit(bg_img, [0, 0])
         
         for b, bomb in enumerate(bombs):
@@ -203,6 +206,16 @@ def main():
                     bird.change_img(6,screen)
                     pg.display.update
         bombs = [bomb for bomb in bombs if bomb is not None]
+
+        for i, bm in enumerate(beams):
+            if bm is not None:
+                for j, bomb in enumerate(bombs):
+                    if bm.rct.colliderect(bomb.rct):
+                        beams[i] = None
+                        bombs[j] = None
+                        bird.change_img(6, screen)
+                        break
+        beams = [bm for bm in beams if bm is not None]
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
