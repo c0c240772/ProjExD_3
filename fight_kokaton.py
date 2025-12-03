@@ -143,17 +143,20 @@ class Bomb:
 
 class Score:
     def __init__(self):
-        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)  # フォントの設定
         self.color = (0, 0, 255)  # 青色
-        self.score = 0
-        self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color)
-        self.rct = self.img.get_rect()
-        self.rct.left = 100
-        self.rct.bottom = HEIGHT - 50
+        self.score = 0  # スコアの初期値
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color)  # 文字列Surfaceの生成
+        self.rct = self.img.get_rect()  # 文字列の中心座標：画面左下
+        self.rct.left = 100  # 横座標：100
+        self.rct.bottom = HEIGHT - 50  # 縦座標：画面下部から50)
 
     def update(self, screen: pg.Surface):
-        # 現在のスコアを描画
-        self.img = self.fonto.render(f"Score: {self.score}", 0, self.color)
+        """
+        現在のスコアを表示させる文字列Surfaceの生成
+        スクリーンにblit
+        """
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color)
         screen.blit(self.img, self.rct)
 
 
